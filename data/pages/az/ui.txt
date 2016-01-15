@@ -1,0 +1,53 @@
+====== AZ User Interface Library ======
+
+User Interface of AZ is a set of javascript-libraries consists of:
+  * [[az:ui:scripts.js|Core library]]
+  * Editing library
+  * Query Editor
+  * Chart library
+
+===== Editing library =====
+
+Editing library is a set of JavaScript functions and objects, which are placed in **editing20.js** file. It contains code, which:
+  * transforms special control placeholders to controls with appropriate type
+  * handles control events, like change of value, clicks, typing, and checks them for compliance with control restrictions, like max, min etc.
+  * triggers sending changed control values to server, and handles related server errors.
+
+===== Query editor =====
+
+===== Chart library =====
+Chart library embeds to existing html by writing a code below:
+<code html>
+<script type="text/javascript" src="scripts.js"></script>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript" src="d3c.js"></script>
+<link rel="stylesheet" href="d3c.css">
+</code>
+It uses [[az:ui:scripts.js|Core UI library]] and [[http://d3js.org|D3]]. It defines **D3C** object in **window**, and you should call **D3C.setup()** to replace all specially marked html elements on page to chart objects.
+
+Usually **D3C.setup()** called on load event.
+
+If you want, you can use **editing20.js** with its **prepareControls** calling **D3C.setup()** if it exists in window.
+<code html>
+<script type="text/javascript" src="editing20.js"></script>
+</code>
+==== Chart element syntax ====
+Any element with **d3c** attribute defined will be used to generate chart element. By default, it leaves source of chart visible. Other parameters are defined by element attributes, which are:
+  * **d3c-hide** - hide chart's source
+  * **d3c-width** - width of chart element in pixels
+  * **d3c-height** - height of chart element in pixels
+  * **d3c-row** - css selector of table rows within container, marked with **d3c** attribute.
+  * **d3c-cell** - css selector of table cells within row, defined by **d3c-row**
+  * **d3c-head** - css selector of captions of table columns within container, marked with **d3c** attribute.
+
+<code>
+        d3c-type="radar"
+        -d3c-xaxis=2
+        d3c-date-mask1="(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})"
+        d3c-subscribe="$0"
+        -d3c-interpolate=linear 
+        -d3c-interpolate=basis 
+        d3c-hide
+        d3c-y-discrete
+        -d3c-new
+</code>

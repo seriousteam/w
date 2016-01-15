@@ -1,0 +1,24 @@
+====== AZ Project======
+AZ project becomes a second generation of Seerious Application Server, written in PHP and using for its work third party web-server programs, such [[http://nginx.org/|nginx]] and(or)(depends on configuration) [[http://www.apache.org/|Apache]].
+===== Server side engine =====
+There are plenty of php-scripts on server side, that form a AZ server core. As is known, php script executes by web-server, no matter what web-server you are using - nginx or Apache.
+In general, server side engine consists of:
+  * [[az:templates|AZ templates]]
+  * [[az:engine|AZ engine]]
+  * [[az:configuration|Configuration files]]
+
+AZ templates is written in some kind of "template over template" style. After an interpretation with a templater, **AZ template becomes a simple PHP script**, with some modifications to its environment. 
+
+AZ engine is a set of PHP scripts, some of which are necessary for running prepared AZ templates, and other are necessary for preparing raw AZ templates. 
+
+Call of templater script, which prepares raw AZ templates, may be placed, for example, in Apache rewrite rule in .htaccess file, or executed by OS service(or daemon) process, which monitors changes in raw AZ templates.
+===== End-User Interface =====
+UI is a set of javascript libraries, main part of them were developed by [[st:|ST]], and other, like d3, were included as is from third party developers.
+
+AZ UI library consists of:
+  * [[az:ui:scripts.js|Core library]]
+  * [[az:ui:|User interface library]]
+
+Core library contains functions which are simple forms of original JavaScript DOM manipulation and server communication functions.
+
+User interface library contains a set of javascript libraries, which work together to build responsible controls, forms and layouts for server data.

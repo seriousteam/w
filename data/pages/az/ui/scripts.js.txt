@@ -1,0 +1,2 @@
+====== Core UI library ======
+Core library is a simple JavaScript file named **scripts.js**, which contains useful functions for DOM manipulation, XML-Http-Request calls, common practices for form control operations. Library was written as close to [[http://vanilla-js.com/|vanilla.js]] as possible.

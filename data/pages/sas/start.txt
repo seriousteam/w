@@ -1,0 +1,7 @@
+====== Seerious Application Server ======
+SAS is a complex information system written generally in C++. It combines:
+  * Web-server
+  * Templater
+  * Database interaction unit
+  * Generated user interface to database
+  * Customizable part, written in ML2 and embedded into SAS on build step.

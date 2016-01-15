@@ -1,0 +1,125 @@
+====== AZ Templates ======
+Each AZ Template generally is a file, which will be processed by AZ Engine and become a PHP file. Such prepared PHP file contains a function with a body consists of all generated code. Anyway, that PHP file stays executable due a call of **dispatch_template** function, which executes prepared function too.
+===== Basic Agreement =====
+AZ Template contains any text, but only specific markers will be recognized and transformed into PHP code. Code within markers can be interpreted "as is" or in specific way.
+<code php>
+<body>
+This is a text placed on the left [[MARKER]] and the right side of the marker.
+</body>
+</code>
+Markers should be opened with **<nowiki>[[</nowiki>** and closed with **<nowiki>]]</nowiki>**. If you want to cancel default behavior of marker, you should change opening marker to **<nowiki>[-[</nowiki>**, so marker will be shown without processing.
+<code php>
+<body>
+This is a text shown [-[fully]].
+</body>
+</code>
+The **<nowiki>[-[</nowiki>** will be **<nowiki>[[</nowiki>** on output, **<nowiki>[--[</nowiki>** becomes **<nowiki>[-[</nowiki>**, and so on.
+
+Basic structure of generated PHP file is shown below:
+<code php>
+require_once('template-runtime.php');
+$functions['_main_'] = function($cmd, $args = null, $params = null) {
+  'user php code, defined in prolog helper'
+  'user template code'
+}
+dispatch_template(main_argument(),  main_subarguments())
+</code>
+As a result of template definition, when you want interrupt template execution, call **return**.
+
+====== Raw PHP  ======
+You can use all might of PHP within AZ Template, but with some syntax restrictions.
+===== Syntax restrictions =====
+When defining pure PHP code within marker, you cant use:
+  * Tilda symbol **~**, as it's used for output flow control
+  * Dotted constructions like **$x.a.b.c** as they are used in query helper as field accessors
+  * Colon symbol **:**, as it's used in query helper for defining SQL
+  * Symbols **{** and **}** in constructions like **<nowiki>$variable->{$propname}</nowiki>** as they are used in query helper field helpers
+  * "At" mark **@**, as it's used for placement helper
+
+===== Expressions and statements =====
+  * **Expression** is everything that returns value. Expression will output its value to stream
+  * **Statement** is everything that doesnt return value. Statement wont output any value to stream
+<code php>
+This is a statement [[foreach($arr as $key=>$value){]]
+This is an expression. Value = [[$value]]
+This is an expression too. Value + 1 = [[$value+1]]
+This is a statement, that could be expression too. Add 1 to value. [[$value+=1;]] Nothing in output.
+This is a statement too. The most tiny statement. [[}]]
+[[if($value===FALSE) {]]
+Some text printed when $value===FALSE
+[[}]]
+</code>
+Syntax difference between **expression** and **statement** commonly is a presence of semicolon symbol **;** in the end of **statement**.
+
+Sometimes you will want to shut down any output of marker. You can do it by using output helper with adding "~" at the end of marker.
+<code php>
+There is not output of $variable: [[$variable~]].
+</code>
+===== Functions, classes and other code=====
+You can define custom PHP code using PROLOG marker. All text of that marker will be placed as PHP code in the beginning of main function. 
+<code php>
+[[PROLOG
+  function func_name($v) {
+    return $v;
+  }
+]]
+</code>
+===== Environment =====
+Access to context of PHP script is given trough **$cmd**, **$args** and **$params** global variables, which are parameters of main function.
+  * **$cmd** usually contains SQL expression of filter, or other output flow instructions.
+  * **$args** usually contains values to SQL expressions placeholders ( "?" symbols).
+  * **$params** contains URL parameters as properties of $params object. Accessed like **<nowiki>$params->name</nowiki>**.
+
+====== Helpers======
+===== Output helper =====
+===== Placement helper =====
+===== Query helper =====
+===== Subtemplate helper =====
+==== Define template section ====
+You can define a section inside a template file using **BEGIN://section_name//** and **END://section_name//** markers.
+It may contain mixed script code, or even pure PHP.
+<code php>
+<html>
+[[BEGIN:my_section]]
+  <div>[[@div $loop : SELECT * FROM T1 LIMIT 10]][[$loop.a.field_name]]</div>
+[[END:my_section]]
+</html>
+</code>
+Pure PHP:
+<code php>
+<html>
+[[BEGIN:my_code]][[
+  $a = 1;
+  $b = 2;
+  echo $a+$b;
+]][[END:my_code]]
+</html>
+</code>
+==== Use template section ====
+You can use that sections in such ways as:
+  * Inplace, using **CALL** marker with syntax **CALL //section_name//://file_name//://cmd//**. Parameter **file_name** has deafault value of current template file, **section_name** default is **main** function
+  * Reference on template section, using **REF** marker with same syntax as **CALL** marker
+
+**Pay attention of colon symbols** - they have, as you can see, special meaning differs of, for example, **BEGIN** marker. So, proper use of **CALL** and **REF** markers are:
+<code php>
+<html>Template file 'cities.php' 
+  <span>[[CALL :file_name.txt]] outputs all file_name.txt template</span>
+  <span>[[CALL sectionA:file_name.php]] outputs section 'sectionA' of a 'file_name.php' file</span>
+  <span>[[CALL sectionB:]] outputs section 'sectionB' of current 'cities.php' file</span>
+  <span>[[CALL sectionB::*WHERE idx=15]] outputs section 'sectionB' of current 'cities.php' file using cmd valued with string</span>
+  <a href=[[REF :file_name.txt]]></a>
+</html>
+</code>
+==== Parameters of template section ====
+To pass some parameters to **CALL**, **REF** or **CREF** you may define:
+  * **$command_args** array, which contains arguments for called template parameters and for passed to marker **cmd**
+  * **$call_params** object, whose properties are accessible in called template.
+
+Those definitions must be placed before **CALL** marker using them.
+<code php>
+[[$command_args[]=123;$command_args[]='a';]]
+[[CALL procedure:]]
+[[BEGIN:procedure]]
+  <div>'a' will be printed here:[[ $args[1] ]]</div>
+[[END:procedure]]
+</code> 

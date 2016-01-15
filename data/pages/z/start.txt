@@ -1,0 +1,38 @@
+====== Z Project ======
+
+===== Z UI Library design keynotes =====
+While constructing new JavaScript Z core, you have to take into consideration some keystone aspects of UI workflow.
+==== Working within form ====
+How controls will work within <form> tag. What will happen on form submit. Does controls have proper **name** attribute, or it will be handled by script.
+
+
+==== Find Control ====
+How you can find control itself, its dependent elements. Control is a wide area collection of DOM elements belong to different parent nodes. They can be neighbors, or not.
+==== Value ====
+Control has a **server value** and **visual value**. It's common they are the same, but sometimes they differ.
+==== Control states ====
+Generally, control has states, which are:
+  * Read only
+  * Error
+  * Editable
+  * Printable
+  * Sample
+
+There are conversions between them.
+Each control is wide area collection of dom elements, so conversion of control states leads to understanding the way of control finding.
+==== Events ====
+There are many events which occurs in control workflow. 
+  * Save
+  * Choose
+
+They all must be easily described and handled.
+
+==== Modularization ====
+Control behavior, its transformation of states etc., must be described with single module
+
+==== Sample conception ====
+Control has a 'sample' state, and has ability to understand some 'condition' to become real instance of sample.
+Sample state : Sample is always invisible, sample is a source for clone
+
+==== Mutual dependence of controls ====
+Control's value and visibility depend on other controls. So, it intercepts onload event of page for first load and onchange event for value change. 
