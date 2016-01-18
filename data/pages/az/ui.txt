@@ -27,7 +27,7 @@ It uses [[az:ui:scripts.js|Core UI library]] and [[http://d3js.org|D3]]. It defi
 
 Usually **D3C.setup()** called on load event.
 
-If you want, you can use **editing20.js** with its **prepareControls** calling **D3C.setup()** if it exists in window.
+If you want, you can use **editing20.js** with its **prepareControls** calling **D3C.setup()** by default if it exists in window.
 <code html>
 <script type="text/javascript" src="editing20.js"></script>
 </code>
