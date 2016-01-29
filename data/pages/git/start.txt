@@ -1,0 +1,45 @@
+====== Development Center ======
+Our development server currently located on **213.208.189.135**.
+Working servers located in 
+<code>
+/d/is-site/servers/
+</code>
+Repository bank located in
+<code>
+/d/is-site/repositories/
+</code>
+===== Clone repository =====
+To clone repository from DC, you should run from DC:
+<code>
+git clone ssh://username@127.0.0.1:443/cygdrive/d/is-site/repositories/rep_name.git
+</code>
+and from anywhere else:
+<code>
+git clone ssh://username@213.208.189.135:443/cygdrive/d/is-site/repositories/rep_name.git
+</code>
+You must have account on DC.
+
+After that, you can pull and push your changes to it. You have to check your permission rights before.
+===== Create repository =====
+==== Remote repository to DC ====
+On DC create empty bare repository
+<code>
+cd /d/is-site/repositories
+git init --bare ./reponame.git
+</code>
+On remote create repository, add files, commit them, add remote url and push to DC:
+<code>
+cd /reponame
+git init
+git add -A
+git commit -m "init commit"
+git remote add origin ssh://213.208.189.135:443/cygdrive/d/is-site/repositories/reponame.git 
+git push origin master
+</code>
+==== Local repository ====
+To create repository from folder
+<code>
+cd /path/to/folder
+git init
+git clone --bare . /d/is-site/repositories/repname.git
+</code>
