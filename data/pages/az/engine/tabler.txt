@@ -1,0 +1,7 @@
+====== Tabler ======
+The //tabler// is a component of AZ Engine, which can build valid AZ templates using [[az:configuration:model|project model]]. Usually, those templates could be written by a human himself too.
+
+Tabler generates several variants of templates:
+  * Choose variant
+  * Grouped variant
+  * Full table variant

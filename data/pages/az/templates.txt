@@ -74,6 +74,45 @@ Access to context of PHP script is given trough **$cmd**, **$args** and **$param
 ===== Output helper =====
 ===== Placement helper =====
 ===== Query helper =====
+===== Column helper =====
+You can externally define column set for your //query helper// in template. To use this feature, you must define special URL parameters and markup template with special column zones.
+
+You may define additional columns for //query helpers// and its //sub-query helpers//.
+
+Additional columns are distributed among several **column sections**. Each //query helper// can contain limitless number of those sections. //Section// name is unique only for it's //query helper// container and can be used to markup desired place in template for column output.
+==== URL parameters ====
+You must use **xf[]** as a parameter with **//query helper name//://section name//://column path//** value. Order of parameters in url defines **order** of columns in //sections//.
+<code>
+?xf[]=data:section2:a.rel.f1 & xf[]=subdata:section2:a.f2
+</code>
+==== Column zones ====
+You must define column zone inside of it's query helper zone. Syntax of marker is //$query_helper//.{**CE** //section_name//}. In most cases, you will use //column helper// with **placement helper** //@tag//, because //column helper// marker generates loop.
+
+Inside of //column helper// loop, column must be defined with //output helper// syntax **$//query_helper//.{$//section_name//->alias}**
+<code php>
+<table>
+  <tr>[[@tr $data : SELECT * FROM T1]]
+    <td>[[@td $data.{CE section1}]][[$data.{$section1->alias}]]</td>
+    <td>[[$data.a.f1]]    
+    <td>[[@td $data.{CE section2}]][[$data.{$section2->alias}~e:]]</td>
+  </tr>
+</table>
+</code>
+==== Header zones ====
+To output captions of columns, you can define header zone in any place of template, regardless of query helper placement, using **column helper** loop and //output helper// **$//section_name//->caption**
+<code php>
+<table>
+<thead>
+  <tr><th>[[@th$data.{CE fields}]][[$fields->caption]]</th><th>f1</tr>
+</thead>
+<tbody>
+  <tr>[[@tr $data : SELECT * FROM T1]]
+    <td>[[@td $data.{CE fields}]][[$data.{$fields->alias}]]</td>
+    <td>[[$data.a.f1]]</td>
+  </tr>
+</tbody>
+</table>
+</code>
 ===== Subtemplate helper =====
 ==== Define template section ====
 You can define a section inside a template file using **BEGIN://section_name//** and **END://section_name//** markers.

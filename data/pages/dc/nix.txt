@@ -1,0 +1,20 @@
+====== Working with *nix systems ======
+===== Archives =====
+To create tar.gz archive:
+<code>
+tar -zcvf xxx.tar.gz ./folder
+</code>
+To extract tar.gz archive:
+<code>
+tar -xvf xxx.tar.gz
+</code>
+===== SSH =====
+==== Copy files via SCP ====
+From **ssh** server to local:
+<code>
+scp -P 443 root@213.208.189.135:/folder/Source ./Target
+</code>
+From local to **ssh** server:
+<code>
+scp -P 443 ./Source root@213.208.189.135:/folder/Target
+</code>

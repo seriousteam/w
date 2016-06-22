@@ -6,4 +6,4 @@ This wiki contains documentation and other helpful articles of [[st:|Seerious Te
   * [[az:|AZ Project (second generation)]]
   * [[Z:|Z Project (third generation)]] //under construction//
   
-Version control is a common task in development of complex systems by a group of mates. Even for a single developer it is quite useful. So, you may find helpful to know, [[git:|how to install, use and support version control system]] like [[https://git-scm.com/|Git]]
+For our development process we are using [[dc:|Development center]]. It's just a synchronization point, while all projects and sources are distributed among Seerious team members.

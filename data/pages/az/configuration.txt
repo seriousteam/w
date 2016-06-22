@@ -1,0 +1,6 @@
+====== AZ Configuration ======
+
+Generally, configuration of AZ contains following descriptions:
+  * [[az:configuration:db|Database access and table mappings]]
+  * [[az:configuration:model|Project data model]]
+  * [[az:configuration:roles|Access roles]]

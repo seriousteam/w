@@ -16,38 +16,121 @@ Editing library is a set of JavaScript functions and objects, which are placed i
 ===== Query editor =====
 
 ===== Chart library =====
-Chart library embeds to existing html by writing a code below:
-<code html>
-<script type="text/javascript" src="scripts.js"></script>
-<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
-<script type="text/javascript" src="d3c.js"></script>
-<link rel="stylesheet" href="d3c.css">
-</code>
+Chart library embeds to existing html by including **scripts.js**, **d3.js**, **d3c.js** and **d3c.css**.
 It uses [[az:ui:scripts.js|Core UI library]] and [[http://d3js.org|D3]]. It defines **D3C** object in **window**, and you should call **D3C.setup()** to replace all specially marked html elements on page to chart objects.
 
 Usually **D3C.setup()** called on load event.
 
 If you want, you can use **editing20.js** with its **prepareControls** calling **D3C.setup()** by default if it exists in window.
-<code html>
-<script type="text/javascript" src="editing20.js"></script>
-</code>
+==== Chart data ====
+Using selectors from chart description we get a data matrix with columns of different types. Chart attempts to convert data to time type using masks from chart description. When failed it attempts to convert to numeric type. When failed, that column counts as string column and could be used in chart captions only. 
 ==== Chart element syntax ====
-Any element with **d3c** attribute defined will be used to generate chart element. By default, it leaves source of chart visible. Other parameters are defined by element attributes, which are:
-  * **d3c-hide** - hide chart's source
-  * **d3c-width** - width of chart element in pixels
-  * **d3c-height** - height of chart element in pixels
-  * **d3c-row** - css selector of table rows within container, marked with **d3c** attribute.
-  * **d3c-cell** - css selector of table cells within row, defined by **d3c-row**
-  * **d3c-head** - css selector of captions of table columns within container, marked with **d3c** attribute.
+Any element with any of defined below attributes will be a container of data to be used to generate chart element. By default, it leaves source of chart visible.
 
-<code>
-        d3c-type="radar"
-        -d3c-xaxis=2
-        d3c-date-mask1="(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})"
-        d3c-subscribe="$0"
-        -d3c-interpolate=linear 
-        -d3c-interpolate=basis 
-        d3c-hide
-        d3c-y-discrete
-        -d3c-new
+^ Attribute name   ^ Description                                                   ^ Value type       ^  Example        ^
+| d3c-row        | CSS selector of table rows within **container** (resulting CSS: **container**>//selector//)  | css selector string           | <code>d3c-row="TBODY>TR"</code>     |
+| d3c-cell       | CSS selector of table cells within **row** (resulting CSS: **container**>**row**>//selector//)                    | css selector string           | <code>d3c-cell="TD"</code>    |
+| d3c-head       | CSS selector of captions of table columns within **container** (resulting CSS: **container**>//selector//)| string           | <code>d3c-head="THEAD>TR>TH"</code>    |
+| d3c-cell-data  | Javascript accessor to data in cell, where **this** context is cell element. If accessor doesn't set or returns empty data, then **value** and **innerHTML** will be checked. | eval string | <code>d3c-cell-data="this.getAttribute('x')"</code> |
+| d3c-head-data  | Javascript accessor to data for header, where **this** context is head element. If accessor doesn't set or returns empty data, then **value** and **innerHTML** will be checked. | eval string | <code>d3c-head-data="this.getAttribute('h')"</code> |
+| d3c-width      | Width of chart element                                        | number in pixels | <code>d3c-width="400"</code>  |
+| d3c-height     | Height of chart element in pixels                             | number in pixels | <code>d3c-height="300"</code> |   
+| d3c-hide       | Hide chart's source                                           | presence         | <code>d3c-hide</code>   |
+| d3c-place      | Where to generate chart element. By default, chart will be placed into **element with chart description**. | eval string | <code>d3c-place="this.parentNode.querySelector('chart-container')"</code> |
+| d3c-type       | Type of chart         | string(**line**, **bar**, **radar**)           | <code>d3c-type="radar"</code> |
+| d3c-xaxis      | Zero-based index of column to show at x-axis. Applied to **line**. Order of columns defined by order of cells selected in row with DOM **querySelectorAll** function.  | number           | <code>d3c-xaxis="0"</code>    |
+| d3c-date-mask**[0-N]**| Multiple regexps for parsing data in column as time data. Has preprocessed named pockets you must use in regexps, named **year**, **month**, **day**, **hours**, **minutes** and **seconds**. Any cell-data match to any of them counts as time data.                                            | special regexp string  | |
+| <code>d3c-date-mask1="(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})"
+d3c-date-mask2="(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})\s+(?<hours>\d{2}):(?<minutes>\d{2}):(?<seconds>\d{2})"
+</code>               ||||
+| d3c-interpolate | Defines smoothness of chart lines. More smooth - less precision. | string(**linear**, **basic**)| <code>d3c-interpolate="basic"</code> |
+==== Chart Example ====
+<code html chart-example.htm>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="http://213.208.189.135/az/lib/scripts.js"></script>
+    <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript" src="http://213.208.189.135/az/lib/d3c.js"></script>
+    <link rel="stylesheet" href="http://213.208.189.135/az/lib/d3c.css">
+    <style>
+      span { padding : 0.5em }
+    </style>
+    <script>
+      function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+      }
+      function add_row_and_refresh(o) {
+        var chart = document.querySelector('#chart');
+        chart.innerHTML += 
+          '<div><span>New</span><span>'
+          +getRandomInt(10,80)+'</span><span>'
+          +getRandomInt(1,28)+'/'
+          +getRandomInt(1,12)+'/'
+          +getRandomInt(1980,2020)+'</span><span>'
+          +getRandomInt(10000,150000)+'</span><span>'
+          +getRandomInt(10000,150000)+'</span><span>'
+          +getRandomInt(10000,150000)+'</span><span>'
+          +getRandomInt(10000,150000)+'</span><span>'
+          +getRandomInt(10000,150000)+'</span></div>';
+        D3C.setupController(chart);
+      }
+    </script>
+  </head>
+  <body onload="D3C.setup()">
+    <div id=chart d3c-row="DIV" d3c-cell="SPAN" d3c-type="line" d3c-head="P>SPAN" d3c-xaxis="0" d3c-date-mask1="(?<day>\d{1,2})/(?<month>\d{1,2})/(?<year>\d{4})" d3c-width="400" d3c-height="300">
+      <p style="display:none">
+        <span>Last name</span>
+        <span>Age</span>
+        <span>Job occupy date</span>
+        <span>Asked salary</span>
+        <span>Tax base</span>
+        <span>Bonus</span>
+        <span>Initial salary</span>
+        <span>Current Salary</span>
+      </p>
+      <div>
+        <span>Johnson Jack Frank</span>
+        <span>57</span>
+        <span>10/05/2010</span>
+        <span>95000</span>
+        <span>55000</span>
+        <span>20000</span>
+        <span>25000</span>
+        <span>35000</span>
+      </div>
+      <div>
+        <span>Jacobson Terry Brian</span>
+        <span>45</span>
+        <span>05/11/2013</span>
+        <span>45000</span>
+        <span>95000</span>
+        <span>15000</span>
+        <span>60000</span>
+        <span>45000</span>
+      </div>
+      <div>
+        <span>Schubert Franz Luther</span>
+        <span>75</span>
+        <span>05/05/2012</span>
+        <span>65000</span>
+        <span>55000</span>
+        <span>90000</span>
+        <span>55000</span>
+        <span>25000</span>
+      </div>
+      <div>
+        <span>Thomson Samuel John</span>
+        <span>35</span>
+        <span>06/12/2013</span>
+        <span>25000</span>
+        <span>35000</span>
+        <span>23000</span>
+        <span>97000</span>
+        <span>55000</span>
+      </div>
+    </div>
+    <button onclick="add_row_and_refresh(this)">Add row and refresh chart</button>
+  </body>
+</html>
 </code>

@@ -5,7 +5,7 @@ There are plenty of php-scripts on server side, that form a AZ server core. As i
 In general, server side engine consists of:
   * [[az:templates|AZ templates]]
   * [[az:engine|AZ engine]]
-  * [[az:configuration|Configuration files]]
+  * [[az:configuration|Configuration]]
 
 AZ templates is written in some kind of "template over template" style. After an interpretation with a templater, **AZ template becomes a simple PHP script**, with some modifications to its environment. 
 

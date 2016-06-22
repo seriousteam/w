@@ -1,24 +1,20 @@
-1450215519	37.110.148.22	E	az:templates	sam	[Using template section] 	
-1453128475	127.0.0.1	E	az:ui	sam	[Chart library] 	
-1453466207	127.0.0.1	C	git:start	sam	created	
-1453466695	127.0.0.1	E	git:start	sam		
-1453466938	127.0.0.1	E	git:start	sam		
-1453466988	127.0.0.1	E	git:start	sam		
-1453467000	127.0.0.1	E	git:start	sam		
-1453467335	127.0.0.1	E	git:start	sam	[Clone repository] 	
-1453467343	127.0.0.1	E	git:start	sam	[Clone repository] 	
-1453467365	127.0.0.1	E	git:start	sam	[Clone repository] 	
-1453467494	127.0.0.1	E	git:start	sam	[Clone repository] 	
-1453977956	81.26.151.5	E	z:start	sam		
-1453987582	81.26.151.5	E	z:start	sam	[Template data] 	
-1453988737	81.26.151.5	E	z:start	sam	[Template data] 	
-1453989890	81.26.151.5	E	z:start	sam	[Template data] 	
-1453989966	81.26.151.5	E	z:start	sam	[Template data] 	
-1453991258	81.26.151.5	E	z:start	sam	[Template data] 	
-1453992433	81.26.151.5	E	z:start	sam	[Template data] 	
-1453992633	81.26.151.5	E	z:start	sam	[Template data] 	
-1453995471	81.26.151.5	E	z:start	sam	[Template data] 	
-1454071529	81.26.151.5	E	git:start	sam		
-1454071571	81.26.151.5	E	git:start	sam		
-1454071997	81.26.151.5	E	git:start	sam		
-1454072043	81.26.151.5	E	git:start	sam	[Local repository] 	
+1464878512	81.26.151.5	E	az:ui	sam	[Chart Example] 	
+1464878574	81.26.151.5	E	az:ui	sam	[Chart Example] 	
+1465218963	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465219569	81.26.151.5	E	az:ui	sam	[Chart Example] 	
+1465219711	81.26.151.5	E	az:ui	sam	[Chart Example] 	
+1465309294	81.26.151.5	E	az:ui	sam	[Chart Example] 	
+1465309325	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465398633	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465398663	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465400148	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465400369	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465400500	81.26.151.5	E	az:ui	sam	[Chart Example] 	
+1465488001	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465488105	81.26.151.5	E	az:ui	sam	[Chart Example] 	
+1465488559	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465488636	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465488891	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465571870	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465571945	81.26.151.5	E	az:ui	sam	[Chart element syntax] 	
+1465574544	81.26.151.5	E	az:ui	sam	[Chart Example] 	

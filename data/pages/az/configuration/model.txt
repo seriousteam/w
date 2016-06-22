@@ -1,0 +1,69 @@
+====== Project model description ======
+===== model.ini =====
+This file contains descriptions and UI instructions to:
+  * Tables
+  * Queries
+  * Table fields
+  * Relations between tables
+The syntax of //model.ini// is near to SQL.
+
+You can define strings as '//**string**//' or with //(=S: **string** :S=)// construction if you want to use commas in that string. 
+
+Syntax of documentation description:
+  [unnecessary variant] = this variant could be unused  
+  {variant1|variant2|variant3} = you must use one of the variants
+  {1-9} = {1|2|3|4|5|6|7|8|9}
+  
+
+==== Table ====
+<code javascript>
+TABLE table_name ['caption[@@special_caption']] ( 
+  field_definitions
+)
+</code>
+=== Simple fields ===
+<code javascript>
+  field_name {CHAR|VARCHAR|DECIMAL|BLOB|CLOB}[(size[,precision])] ['caption[@@special_caption]'] 
+  [PK] 
+  [CHOOSE] 
+  [SEARCH{1-9}{=|*=|^=}'regular_expression'] 
+  [ORDER({1|-1})] 
+  [REQUIRED] 
+  [HIDDEN] 
+  [UI_LINE] 
+  [VALUES:name] 
+  [RE] 
+  [MIN] 
+  [MAX] 
+  [UI_SIZE] 
+  [='expression']
+</code>
+=== Relation ===
+<code javascript>
+  relation_name @table_name ['caption[@@special_caption]'] [UI_LINE]
+</code>
+=== Field properties ===
+== PK ==
+You must define //PK// for your table for correct relations to it. Table may have multiple //PK//s
+== CHOOSE ==
+//Choose-variant// of [[az:engine:tabler|tabler]] will consists of fields marked with //CHOOSE// keyword. Otherwise it will contain all its fields.
+== SEARCH ==
+  SEARCH{1-9}{=|*=|^=}'regular_expression'
+== Expression ==
+  ='sql_expression'
+In //sql_expression// you must use **$a** as a placeholder of table alias. You can only use fields of current table. Controls generated for those fields are for read only.
+
+=== Table identification ===
+Visible value of accomplished choice from table is expression of //table identification//. By default, it's equal to PK
+  ID:'sql_expression'
+In //sql_expression// you must use **$a** as a placeholder of table alias. You can only use fields of current table.
+<code>
+ID:'$a.f1 || $a.f2'
+ID:(=S: COALESCE( $a.enf_fw || ' ', '') || COALESCE(SUBSTRING( $a.enf_iw,1,1)||'. ','') || COALESCE(SUBSTRING( $a.enf_ow,1,1) || '.','') :S=)
+</code> 
+=== Page of fields ===
+  PAGE:'unique_caption'
+=== Group of fields ===
+  UI_GROUP[:CLOSED]:'unique_caption'
+ 
+===== model.map.ini =====

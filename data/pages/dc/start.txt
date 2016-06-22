@@ -1,5 +1,5 @@
 ====== Development Center ======
-Our development server currently located on **213.208.189.135**.
+Our development server currently located on **213.208.189.135**. SSH listening on port **443**.
 Working servers located in 
 <code>
 /d/is-site/servers/
@@ -8,16 +8,14 @@ Repository bank located in
 <code>
 /d/is-site/repositories/
 </code>
+[[dc:nix|Notes]] about working with *nix systems.
 ===== Clone repository =====
-To clone repository from DC, you should run from DC:
-<code>
-git clone ssh://username@127.0.0.1:443/cygdrive/d/is-site/repositories/rep_name.git
-</code>
-and from anywhere else:
+To clone repository from DC, you should run:
 <code>
 git clone ssh://username@213.208.189.135:443/cygdrive/d/is-site/repositories/rep_name.git
 </code>
-You must have account on DC.
+You must have an account on DC.
+If you are cloning repository to DC, use //127.0.0.1// address.
 
 After that, you can pull and push your changes to it. You have to check your permission rights before.
 ===== Create repository =====
